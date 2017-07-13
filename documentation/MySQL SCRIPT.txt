@@ -1,0 +1,31 @@
+CREATE DATABASE `bookappdb`;
+
+CREATE TABLE `admin` (
+  `username` varchar(45) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  UNIQUE KEY `username_UNIQUE` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `books` (
+  `books_id` int(11) NOT NULL AUTO_INCREMENT,
+  `books_name` varchar(45) DEFAULT NULL,
+  `author` varchar(45) DEFAULT NULL,
+  `price` int(11) NOT NULL,
+  PRIMARY KEY (`books_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `customer_details` (
+  `order_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `customer_name` varchar(45) DEFAULT NULL,
+  `phone` varchar(45) DEFAULT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  `quantity` varchar(45) DEFAULT NULL,
+  `sub_total` int(11) DEFAULT NULL,
+  `order_date` date NOT NULL,
+  PRIMARY KEY (`order_id`),
+  UNIQUE KEY `order_id_UNIQUE` (`order_id`),
+  KEY `books_id_idx` (`book_id`),
+  CONSTRAINT `books_id` FOREIGN KEY (`book_id`) REFERENCES `books` (`books_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 11 Jul, 2017 4:49:33 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.pojo.CustomerDetails" table="CUSTOMER_DETAILS">
+        <id name="orderId" type="int">
+            <column name="ORDER_ID" />
+        </id>
+        <many-to-one name="books" class="com.pojo.Books">
+            <column name="BOOK_ID" />
+        </many-to-one>
+        <property name="customerName" type="java.lang.String">
+            <column name="CUSTOMER_NAME" />
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="PHONE" />
+        </property>
+        <property name="address" type="java.lang.String">
+            <column name="ADDRESS" />
+        </property>
+        <property name="quantity" type="int">
+            <column name="QUANTITY" />
+        </property>
+        <property name="subtotal" type="int">
+            <column name="SUB_TOTAL" />
+        </property>
+        <property name="orderDate" type="java.util.Date">
+            <column name="ORDER_DATE" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 11 Jul, 2017 4:49:33 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.pojo.Books" table="BOOKS">
+        <id name="booksId" type="java.lang.Integer">
+            <column name="BOOKS_ID" />
+            <generator class="native" />
+        </id>
+        <property name="booksName" type="java.lang.String">
+            <column name="BOOKS_NAME" />
+        </property>
+        <property name="author" type="java.lang.String">
+            <column name="AUTHOR" />
+        </property>
+        <property name="price" type="int">
+            <column name="PRICE" />
+        </property>
+        <set name="customerDetailses" table="BOOKS" inverse="false" lazy="true">
+            <key>
+                <column name="BOOKS_ID" />
+            </key>
+            <element type="string">
+                <column name="CUSTOMERDETAILSES" />
+            </element>
+        </set>
+    </class>
+</hibernate-mapping>

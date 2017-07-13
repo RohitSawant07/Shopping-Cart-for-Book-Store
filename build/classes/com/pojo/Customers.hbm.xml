@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 12 Jul, 2017 7:43:30 PM by Hibernate Tools 5.2.3.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.Customers" table="customers">
+        <id name="name" type="string">
+            <column name="name"/>
+        </id>
+        <property name="address" type="string">
+            <column name="address"/>
+        </property>
+        <property name="username" type="string">
+            <column name="username"/>
+        </property>
+        <property name="password" type="string">
+            <column name="password"/>
+        </property>
+        <property name="phonenumber" type="string">
+            <column name="phonenumber"/>
+        </property>
+    </class>
+</hibernate-mapping>
