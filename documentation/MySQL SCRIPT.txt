@@ -1,5 +1,7 @@
 CREATE DATABASE `bookappdb`;
 
+USE bookappdb;
+
 CREATE TABLE `admin` (
   `username` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
@@ -28,4 +30,13 @@ CREATE TABLE `customer_details` (
   UNIQUE KEY `order_id_UNIQUE` (`order_id`),
   KEY `books_id_idx` (`book_id`),
   CONSTRAINT `books_id` FOREIGN KEY (`book_id`) REFERENCES `books` (`books_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `customers` (
+  `name` varchar(45) NOT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  `phonenumber` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
