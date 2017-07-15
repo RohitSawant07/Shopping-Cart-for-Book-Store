@@ -70,10 +70,12 @@
 						<td>${s }</td>
 					</tr>
 				</table>
-				<a class="btn btn-default float-right"
-					href="CartController?id=0&action=empty">Cancel</a> <a
-					href="CheckoutController.jsp"> Purchase as <%=userName%>?
-				</a>
+				<a class="btn btn-default float-right" href="CartController?id=0&action=empty">Cancel</a>
+				
+					Purchase as <%= userName %>? <br>
+					<p><a class="btn btn-default" href="CheckoutController.jsp" >Yes</a>
+					<a class="btn btn-default" href="customer.html">No</a></p>
+				
 			</div>
 		</div>
 	</div>

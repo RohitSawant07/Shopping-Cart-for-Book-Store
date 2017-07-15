@@ -1,3 +1,5 @@
+<%@page import="com.model.CustomerDetailsModel"%>
+<%@page import="com.pojo.CustomerDetails"%>
 <%@page import="com.pojo.Books"%>
 <%@page import="java.util.List"%>
 <%@page import="org.hibernate.Transaction"%>
@@ -41,27 +43,7 @@
 	</nav>
 
 	<%
-		Configuration configuration;
-		SessionFactory sessionFactory;
-		Session hibernatesession = null;
-		Transaction transaction = null;
-		List<Books> myBookList = null;
-
-		try {
-			configuration = new Configuration();
-			sessionFactory = configuration.configure("hibernate.cfg.xml").buildSessionFactory();
-			hibernatesession = sessionFactory.openSession();
-
-			transaction = hibernatesession.beginTransaction();
-
-			myBookList = hibernatesession.createQuery("from CustomerDetails").list();
-
-			transaction.commit();
-			hibernatesession.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<CustomerDetails> orderList = CustomerDetailsModel.GetDetails();
 	%>
 
 	<div class="container">
@@ -79,7 +61,7 @@
 						<th>Order Date</th>
 					</tr>
 
-					<c:forEach var="a" items="<%=myBookList%>">
+					<c:forEach var="a" items="<%=orderList%>">
 						<tr>
 							<th>${a.orderId}</th>
 							<th>${a.books.booksId}</th>

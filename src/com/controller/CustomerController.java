@@ -17,6 +17,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.model.CustomersModel;
 import com.pojo.Admin;
 import com.pojo.Customers;
 
@@ -24,48 +25,25 @@ import com.pojo.Customers;
 public class CustomerController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("userName");
-		String password = request.getParameter("passWord");
-		
-		System.out.println(username);
-		System.out.println(password);
-		
-		Configuration configuration;
-		SessionFactory sessionFactory;
-		Session session = null;
-		Transaction transaction = null;
-		
 
-		try {
-			configuration = new Configuration();
-			sessionFactory = configuration.configure("hibernate.cfg.xml").buildSessionFactory();
-			session = sessionFactory.openSession();
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 
-			transaction = session.beginTransaction();
-			
-			TypedQuery<Customers> query = session.createQuery("from Customers where username = :username");
-			query.setParameter("username", username);
-			List<Customers> list = query.getResultList();
-			
-			transaction.commit();
-			session.close();
-			
-			if (list.isEmpty()) {
-				response.sendRedirect("customer.html");
-			}
-			
+		List<Customers> list = CustomersModel.getUserbyUsername(username);
+
+		if (list.size() > 0) {
 			HttpSession httpSession = request.getSession();
 			String userName = list.get(0).getName();
 			httpSession.setAttribute("userName", userName);
 			response.sendRedirect("index.jsp");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else {
+			response.sendRedirect("customer.html");
 		}
+
 		
 	}
 

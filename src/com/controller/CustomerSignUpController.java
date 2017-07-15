@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.model.CustomersModel;
 import com.pojo.Admin;
 import com.pojo.Customers;
 
@@ -38,34 +39,12 @@ public class CustomerSignUpController extends HttpServlet {
 		customers.setPassword(passWord);
 		customers.setPhonenumber(phoneNumber);
 		
-		
-		Configuration configuration;
-		SessionFactory sessionFactory;
-		Session session = null;
-		Transaction transaction = null;
+		CustomersModel.insert(customers);
 
-		try {
-			configuration = new Configuration();
-			sessionFactory = configuration.configure("hibernate.cfg.xml").buildSessionFactory();
-			session = sessionFactory.openSession();
+		HttpSession httpSession = request.getSession();
+		httpSession.setAttribute("userName", name);
+		response.sendRedirect("index.jsp");
 
-			transaction = session.beginTransaction();
-			
-			session.save(customers);
-			
-			transaction.commit();
-			session.close();
-			
-			HttpSession httpSession = request.getSession();
-			httpSession.setAttribute("userName", name);
-			response.sendRedirect("index.jsp");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
-		}
-
-	
 	}
 
 }

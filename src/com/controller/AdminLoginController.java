@@ -15,6 +15,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.model.AdminModel;
 import com.pojo.Admin;
 
 @WebServlet("/AdminLoginController")
@@ -28,23 +29,8 @@ public class AdminLoginController extends HttpServlet {
 
 		String username = request.getParameter("userName");
 		String password = request.getParameter("passWord");
-
-		Configuration configuration;
-		SessionFactory sessionFactory;
-		Session session = null;
-		Transaction transaction = null;
-
-		try {
-			configuration = new Configuration();
-			sessionFactory = configuration.configure("hibernate.cfg.xml").buildSessionFactory();
-			session = sessionFactory.openSession();
-
-			transaction = session.beginTransaction();
-
-			Admin admin = (Admin) session.get(Admin.class, username);
-
-			transaction.commit();
-			session.close();
+		
+		Admin admin = AdminModel.getUserNameRow(username);
 
 			if (admin == null) {
 				response.sendRedirect("admin-login.jsp");
@@ -53,10 +39,6 @@ public class AdminLoginController extends HttpServlet {
 			HttpSession httpSession = request.getSession();
 			httpSession.setAttribute("loggedinadmin", username);
 			response.sendRedirect("updatecart.jsp");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

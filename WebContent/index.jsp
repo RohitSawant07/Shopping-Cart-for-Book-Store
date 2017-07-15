@@ -1,3 +1,4 @@
+<%@page import="com.model.BooksModel"%>
 <%@page import="org.hibernate.cfg.Configuration"%>
 <%@page import="java.util.List"%>
 <%@page import="org.hibernate.*"%>
@@ -32,43 +33,21 @@
 			<div class="navbar-header">
 				<a href="index.jsp" class="navbar-brand navbar-link">Shopping Cart - Book Store</a>
 				<button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
 			</div>
 			<div class="collapse navbar-collapse" id="navcol-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li role="presentation"><a href="admin-login.jsp">Admin</a></li>
-					<li role="presentation"><a href="#">Hello <%=userName%> !</a></li>
+					<li role="presentation"><a href="#">Hello <%=userName%> !
+					</a></li>
 					<li role="presentation"><a href="LogOutController">Logout?</a></li>
 				</ul>
 			</div>
 		</div>
 		</nav>
 		<%
-			Configuration configuration;
-			SessionFactory sessionFactory;
-			Session hibernatesession = null;
-			Transaction transaction = null;
-			List<Books> myBookList = null;
-
-			try {
-				configuration = new Configuration();
-				sessionFactory = configuration.configure("hibernate.cfg.xml").buildSessionFactory();
-				hibernatesession = sessionFactory.openSession();
-
-				transaction = hibernatesession.beginTransaction();
-
-				myBookList = hibernatesession.createQuery("from Books").list();
-
-				transaction.commit();
-				hibernatesession.close();
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			List<Books> myBookList = BooksModel.getBookTable();
 		%>
 		<div class="container-fluid">
 			<div class="row">
@@ -122,12 +101,12 @@
 					<a class="btn btn-default float-right" href="CartController?id=0&action=empty">Clear Cart</a>
 					<p></p>
 					<a class="btn btn-default float-right" href="CartController?id=0&action=checkout" <%=disabled%>>Check Out</a>
-					<p>
-						Check Out disabled? <a href="customer.html">Try Login</a>
-					</p>
 				</div>
 			</div>
 		</div>
+		<p>
+			Check Out disabled? <a href="customer.html">Try Login</a>
+		</p>
 	</div>
 </body>
 </html>

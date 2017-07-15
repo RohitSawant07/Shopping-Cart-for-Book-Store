@@ -16,6 +16,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.model.BooksModel;
 import com.pojo.Books;
 import com.pojo.Customers;
 import com.pojo.Item;
@@ -24,84 +25,60 @@ import com.pojo.Item;
 public class CartController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		HttpSession session = request.getSession();
-		
+
 		String action = request.getParameter("action");
 		int bookId = Integer.parseInt(request.getParameter("id"));
-		
-		Configuration configuration;
-		SessionFactory sessionFactory;
-		Session hibernatesession = null;
-		Transaction transaction = null;
-		Books books = null;
-		Customers customer = null;
 
-		try {
-			configuration = new Configuration();
-			sessionFactory = configuration.configure("hibernate.cfg.xml").buildSessionFactory();
-			hibernatesession = sessionFactory.openSession();
+		Books books = BooksModel.getBookByID(bookId);
 
-			transaction = hibernatesession.beginTransaction();
-
-			books = hibernatesession.get(Books.class, bookId);
-
-			transaction.commit();
-			hibernatesession.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		Customers customer = new Customers();
 
 		Item item = new Item();
-		
+
 		if (action.equals("ordernow")) {
 			if (session.getAttribute("cart") == null) {
 				List<Item> cart = new ArrayList<Item>();
 				cart.add(new Item(books, 1));
 				session.setAttribute("cart", cart);
 			} else {
-				List<Item> cart = (List<Item>)session.getAttribute("cart");
+				List<Item> cart = (List<Item>) session.getAttribute("cart");
 				int index = findIndex(bookId, cart);
 				if (index == -1) {
 					cart.add(new Item(books, 1));
 				} else {
-//					int quantity = cart.get(index).getQuantity() + 1;
 					cart.get(index).setQuantity(cart.get(index).getQuantity() + 1);
 				}
 				session.setAttribute("cart", cart);
 			}
 			request.getRequestDispatcher("index.jsp").forward(request, response);
-		}
-		else if (action.equals("delete")) {
-			List<Item> cart = (List<Item>)session.getAttribute("cart");
+		} else if (action.equals("delete")) {
+			List<Item> cart = (List<Item>) session.getAttribute("cart");
 			int index = findIndex(bookId, cart);
 			cart.remove(index);
 			session.setAttribute("cart", cart);
 			request.getRequestDispatcher("index.jsp").forward(request, response);
-		} 
-		else if (action.equals("empty")) {
-			List<Item> cart = (List<Item>)session.getAttribute("cart");
+		} else if (action.equals("empty")) {
+			List<Item> cart = (List<Item>) session.getAttribute("cart");
 			cart = new ArrayList<Item>();
 			session.setAttribute("cart", cart);
 			request.getRequestDispatcher("index.jsp").forward(request, response);
-		} 
-		else if (action.equals("checkout")){
-		
-			List<Item> cart = (List<Item>)session.getAttribute("cart");
+		} else if (action.equals("checkout")) {
+
+			List<Item> cart = (List<Item>) session.getAttribute("cart");
 			session.setAttribute("cart", cart);
 			request.getRequestDispatcher("checkout.jsp").forward(request, response);
-			
-		}
-		else if (action.equals("placeorder")) {
+
+		} else if (action.equals("placeorder")) {
 			String name = request.getParameter("name");
 			String address = request.getParameter("address");
 			String phoneNumber = request.getParameter("phoneNo");
-			List<Item> cart = (List<Item>)session.getAttribute("cart");
+			List<Item> cart = (List<Item>) session.getAttribute("cart");
 			session.setAttribute("cart", cart);
 			request.getRequestDispatcher("CheckoutController.jsp").forward(request, response);
 		}
-		
+
 	}
 
 	private int findIndex(int id, List<Item> cart) {
@@ -113,8 +90,7 @@ public class CartController extends HttpServlet {
 		return -1;
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	}
 

@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.model.BooksModel;
 import com.pojo.Books;
 
 @WebServlet("/CartUpdateController")
@@ -39,28 +40,8 @@ public class CartUpdateController extends HttpServlet {
 		book.setAuthor(author);
 		book.setPrice(price);
 
-		Configuration configuration;
-		SessionFactory sessionFactory;
-		Session session = null;
-		Transaction transaction = null;
-
-		try {
-
-			configuration = new Configuration();
-			sessionFactory = configuration.configure("hibernate.cfg.xml").buildSessionFactory();
-			session = sessionFactory.openSession();
-			transaction = session.beginTransaction();
-
-			session.save(book);
-
-			transaction.commit();
-			session.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
-		}
-
+		BooksModel.insertBook(book);
+		
 		response.sendRedirect("updatecart.jsp");
 
 	}
